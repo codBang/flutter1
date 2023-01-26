@@ -28,16 +28,29 @@ class _App3State extends State<App3> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Text(
-                'data',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 40,
-                ),
-              ),
+              MyTitleTheme(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MyTitleTheme extends StatelessWidget {
+  const MyTitleTheme({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'MyTitleTheme',
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 40,
+        backgroundColor:
+            Theme.of(context).textTheme.titleLarge?.backgroundColor,
       ),
     );
   }
