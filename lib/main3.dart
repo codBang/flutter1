@@ -12,6 +12,14 @@ class App3 extends StatefulWidget {
 }
 
 class _App3State extends State<App3> {
+  bool showTitle = true;
+
+  void toggleTitle() {
+    setState(() {
+      showTitle = !showTitle;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,8 +35,14 @@ class _App3State extends State<App3> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              MyTitleTheme(),
+            children: [
+              showTitle ? const MyTitleTheme() : const Text('nothing'),
+              IconButton(
+                onPressed: toggleTitle,
+                icon: const Icon(
+                  Icons.remove_red_eye,
+                ),
+              ),
             ],
           ),
         ),
