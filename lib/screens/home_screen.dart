@@ -10,17 +10,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int totalseconds = 1500;
+  int totalseconds = 10;
+  int totalPomodoros = 0;
+  bool isRunning = false;
   late Timer timer;
 
   void onTick(Timer timer) {
-    setState(() {
-      totalseconds = totalseconds - 1;
-    });
+    if (totalseconds == 0) {
+      setState(() {
+        totalseconds = 10;
+        totalPomodoros++;
+        isRunning = false;
+        timer.cancel();
+      });
+    } else {
+      setState(() {
+        totalseconds = totalseconds - 1;
+      });
+    }
   }
 
   void onStartPressed() {
     timer = Timer.periodic(const Duration(seconds: 1), onTick);
+    setState(() {
+      isRunning = true;
+    });
+  }
+
+  void onpausePressed() {
+    timer.cancel();
+    setState(() {
+      isRunning = false;
+    });
+  }
+
+  String format(int seconds) {
+    var duration = Duration(seconds: seconds);
+    return duration.toString().split('.').first.substring(2, 7);
   }
 
   @override
@@ -33,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             alignment: Alignment.bottomCenter,
             child: Text(
-              '$totalseconds',
+              format(totalseconds),
               style: TextStyle(
                 color: Theme.of(context).cardColor,
                 fontSize: 89,
@@ -48,10 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
             child: IconButton(
               iconSize: 160,
               color: Theme.of(context).cardColor,
-              icon: const Icon(
-                Icons.play_circle_outlined,
+              icon: Icon(
+                isRunning
+                    ? Icons.stop_circle_outlined
+                    : Icons.play_circle_outlined,
               ),
-              onPressed: onStartPressed,
+              onPressed: isRunning ? onpausePressed : onStartPressed,
             ),
           ),
         ),
@@ -76,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Text(
-                        '0',
+                        '$totalPomodoros',
                         style: TextStyle(
                           fontSize: 55,
                           color: Theme.of(context).textTheme.headline1!.color,
