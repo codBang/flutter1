@@ -51,13 +51,29 @@ class _App3State extends State<App3> {
   }
 }
 
-class MyTitleTheme extends StatelessWidget {
-  const MyTitleTheme({
-    Key? key,
-  }) : super(key: key);
+class MyTitleTheme extends StatefulWidget {
+  const MyTitleTheme({super.key});
+
+  @override
+  State<MyTitleTheme> createState() => _MyTitleThemeState();
+}
+
+class _MyTitleThemeState extends State<MyTitleTheme> {
+  @override
+  void initState() {
+    print('initstate');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose');
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Text(
       'MyTitleTheme',
       style: TextStyle(
